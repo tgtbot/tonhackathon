@@ -1,42 +1,83 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useInitData, useMainButton, useThemeParams } from "@tma.js/sdk-react";
+import { useMemo } from "react";
+import { useInitData, useThemeParams } from "@tma.js/sdk-react";
 import {
   TonConnectUIProvider,
   TonConnectButton,
   THEME,
 } from "@tonconnect/ui-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-function MainButtons() {
-  const mainButton = useMainButton();
+// function MainButtons() {
+//   const mainButton = useMainButton();
 
-  const [count, setCount] = useState(0);
+//   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    const onMainButtonClick = () => setCount((prevCount) => prevCount + 1);
+//   useEffect(() => {
+//     const onMainButtonClick = () => setCount((prevCount) => prevCount + 1);
 
-    mainButton.enable().show();
-    mainButton.on("click", onMainButtonClick);
+//     mainButton.enable().show();
+//     mainButton.on("click", onMainButtonClick);
 
-    return () => {
-      mainButton.off("click", onMainButtonClick);
-      mainButton.hide();
-    };
-  }, []);
+//     return () => {
+//       mainButton.off("click", onMainButtonClick);
+//       mainButton.hide();
+//     };
+//   }, []);
 
-  useEffect(() => {
-    mainButton.setText(`Count is ${count}`);
-  }, [mainButton, count]);
+//   useEffect(() => {
+//     mainButton.setText(`Count is ${count}`);
+//   }, [mainButton, count]);
 
-  return null;
-}
+//   return null;
+// }
+
+const Tokens = [
+  {
+    name: "Bitcoin",
+    symbol: "BTC",
+    address: "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+  },
+  {
+    name: "Tether USD",
+    symbol: "USDT",
+    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+  },
+  {
+    name: "BNB",
+    symbol: "BNB",
+    address: "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+  },
+  {
+    name: "SHIBA INU",
+    symbol: "SHIB",
+    address: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+  },
+  {
+    name: "ChainLink Token",
+    symbol: "LINK",
+    address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+  },
+  {
+    name: "Render Token",
+    symbol: "RNDR",
+    address: "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24",
+  },
+  {
+    name: "Arbitrum",
+    symbol: "ARB",
+    address: "0xaFBeC4D65BC7b116d85107FD05d912491029Bf46",
+  },
+];
 
 /**
  * Displays current application init data.
  */
 function InitData() {
+  const router = useRouter();
   const initData = useInitData();
 
   const greeting = useMemo(() => {
@@ -62,11 +103,18 @@ function InitData() {
       {greeting}
       <p>Below are the trending cryptos:</p>
       <div className="flex flex-col gap-4">
-        {["BTC", "ETH", "DOGE", "SOL", "ADA"].map((crypto) => (
-          <div key={crypto} className="flex justify-between items-center">
-            <div>{crypto}</div>
+        {Tokens.map((token) => (
+          <div key={token.name} className="flex justify-between items-center">
+            <div>{token.symbol}</div>
             <div>
-              <Button>Trade</Button>
+              <Button asChild>
+                <Link
+                  target="_blank"
+                  href={`https://t.me/BananaGunSniper_bot?start=snp_tinaleebot_${token.address}`}
+                >
+                  Trade
+                </Link>
+              </Button>
             </div>
           </div>
         ))}
