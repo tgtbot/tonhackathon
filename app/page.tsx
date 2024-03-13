@@ -9,6 +9,8 @@ import {
 } from "@tonconnect/ui-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { useContractWrapper } from "@/components/hooks/useContractWrapper";
+import { useConnection } from "@/components/hooks/useConnection";
 import Link from "next/link";
 
 // function MainButtons() {
@@ -126,6 +128,10 @@ function InitData() {
 export default function Home() {
   const themeParams = useThemeParams();
 
+  const { number, contract_address, sendInternalMessage } =
+    useContractWrapper();
+  const { connected } = useConnection();
+
   return (
     <TonConnectUIProvider
       manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
@@ -162,6 +168,20 @@ export default function Home() {
         <TonConnectButton />
       </div>
       <InitData />
+      <b>Contract Address:</b>
+      <div>{contract_address}</div>
+      <b>Current number</b>
+      <div>{number}</div>
+
+      {connected && (
+        <a
+          onClick={() => {
+            sendInternalMessage();
+          }}
+        >
+          Send 1 TON to contract to start lottery
+        </a>
+      )}
     </TonConnectUIProvider>
   );
 }
