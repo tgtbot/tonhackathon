@@ -125,12 +125,31 @@ function InitData() {
   );
 }
 
-export default function Home() {
-  const themeParams = useThemeParams();
-
+function SendTonButton() {
+  const { connected } = useConnection();
   const { number, contract_address, sendInternalMessage } =
     useContractWrapper();
-  const { connected } = useConnection();
+  return (
+    <>
+      <b>Contract Address:</b>
+      <div>{contract_address}</div>
+      <b>Current number</b>
+      <div>{number}</div>
+      {connected && (
+        <a
+          onClick={() => {
+            sendInternalMessage();
+          }}
+        >
+          Send 1 TON to contract to start lottery
+        </a>
+      )}
+    </>
+  );
+}
+
+export default function Home() {
+  const themeParams = useThemeParams();
 
   return (
     <TonConnectUIProvider
@@ -168,20 +187,8 @@ export default function Home() {
         <TonConnectButton />
       </div>
       <InitData />
-      <b>Contract Address:</b>
-      <div>{contract_address}</div>
-      <b>Current number</b>
-      <div>{number}</div>
 
-      {connected && (
-        <a
-          onClick={() => {
-            sendInternalMessage();
-          }}
-        >
-          Send 1 TON to contract to start lottery
-        </a>
-      )}
+      <SendTonButton />
     </TonConnectUIProvider>
   );
 }
