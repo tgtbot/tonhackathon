@@ -1,6 +1,4 @@
-import type { NextApiRequest } from "next";
-
-export async function POST(req: NextApiRequest) {
+export async function POST(req: Request) {
   try {
     const response = await fetch("https://ai.tinalee.bot/trending_crypto", {
       method: "POST",
