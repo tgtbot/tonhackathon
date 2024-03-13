@@ -135,17 +135,16 @@ function SendTonButton() {
       <div>{contract_address}</div>
       <b>Current number</b>
       <div>{number}</div>
-      {connected && (
-        <Button asChild>
-          <a
-            onClick={() => {
-              sendInternalMessage();
-            }}
-          >
-            Send 1 TON to contract to start lottery
-          </a>
-        </Button>
-      )}
+
+      <Button asChild>
+        <a
+          onClick={() => {
+            sendInternalMessage();
+          }}
+        >
+          Send 1 TON to contract to start lottery
+        </a>
+      </Button>
     </>
   );
 }
