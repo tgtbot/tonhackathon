@@ -9,8 +9,16 @@ import {
 import { Greeting } from "./greeting";
 import { TrendingTokens } from "./trending-tokens";
 import { PlayLotteryButton } from "./play-lottery-button";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useThemeParams } from "@tma.js/sdk-react";
+
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { refetchOnWindowFocus: false } },
+});
 
 export default function Home() {
+  const themeParams = useThemeParams();
+
   return (
     <TonConnectUIProvider
       manifestUrl="https://ton-connect.github.io/demo-dapp-with-react-ui/tonconnect-manifest.json"
@@ -43,15 +51,26 @@ export default function Home() {
         twaReturnUrl: "https://t.me/DemoDappWithTonConnectBot/demo",
       }}
     >
-      <div className="p-4 flex justify-center">
-        <TonConnectButton />
-      </div>
+      <QueryClientProvider client={queryClient}>
+        <main
+          className="min-h-screen"
+          style={{
+            background: themeParams.backgroundColor,
+            color: themeParams.textColor,
+          }}
+        >
+          <div className="p-4 flex justify-center">
+            <TonConnectButton />
+          </div>
 
-      <div className="p-4">
-        <Greeting />
-        <TrendingTokens />
-        <PlayLotteryButton />
-      </div>
+          <div className="p-4">
+            <Greeting />
+            <TrendingTokens />
+            <hr className="my-4" />
+            <PlayLotteryButton />
+          </div>
+        </main>
+      </QueryClientProvider>
     </TonConnectUIProvider>
   );
 }

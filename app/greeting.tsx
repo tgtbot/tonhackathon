@@ -21,6 +21,6 @@ export function Greeting() {
       startParam,
     } = initData;
 
-    return <h1 className="text-xl">Hello {user?.username}</h1>;
+    return <h1 className="text-xl text-center">Hello {user?.username}</h1>;
   }, [initData]);
 }

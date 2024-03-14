@@ -52,8 +52,10 @@ export function TrendingTokens() {
   }, []);
 
   return (
-    <>
-      <p>Trending cryptos from yesterday:</p>
+    <div className="py-4">
+      <h2 className="text-lg text-center pb-4">
+        Trending cryptos from yesterday:
+      </h2>
       <div className="flex flex-col gap-4">
         {trendingData.map((token) => (
           <div key={token} className="flex justify-between items-center">
@@ -73,6 +75,6 @@ export function TrendingTokens() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

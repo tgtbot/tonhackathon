@@ -26,9 +26,10 @@ export function useLotteryContract() {
   useEffect(() => {
     async function getValue() {
       if (!lotteryContract) return;
-      setNumber(undefined);
-      const number = await lotteryContract.getData();
-      setNumber(number);
+      const _number = await lotteryContract.getData();
+      if (number !== _number) {
+        setNumber(_number);
+      }
       await sleep(5000);
       getValue();
     }
