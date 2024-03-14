@@ -10,7 +10,7 @@ import {
   toNano,
 } from "ton-core";
 
-export class MainContract implements Contract {
+export class Lottery implements Contract {
   constructor(
     readonly address: Address,
     readonly init?: { code: Cell; data: Cell }
@@ -27,7 +27,7 @@ export class MainContract implements Contract {
     const init = { code, data };
     const address = contractAddress(workchain, init);
 
-    return new MainContract(address, init);
+    return new Lottery(address, init);
   }
 
   // deploy contract

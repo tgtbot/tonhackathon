@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Address, OpenedContract, toNano } from "ton-core";
 import { useInit } from "./useInit";
-import { MainContract } from "../contracts/ContractWrapper";
+import { Lottery } from "../contracts/lottery";
 import { useTonClient } from "./useTonClient";
-import { useConnection } from "./useConnection";
+import { useTonConnect } from "./useTonConnect";
 
-export function useContractWrapper() {
-  const client = useTonClient();
-  const connection = useConnection();
+export function useLotteryContract() {
+  const { wallet, sender } = useTonConnect();
+  const { client } = useTonClient();
 
   const sleep = (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time));
@@ -18,10 +18,10 @@ export function useContractWrapper() {
 
   const mainContract = useInit(async () => {
     if (!client) return;
-    const contract = new MainContract(
+    const contract = new Lottery(
       Address.parse("UQBuCIH3AAwsCXmFFrHE04QseaBmuTXXRF6Bvb81vAzZLHp5")
     );
-    return client.open(contract) as OpenedContract<MainContract>;
+    return client.open(contract) as OpenedContract<Lottery>;
   }, [client]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export function useContractWrapper() {
     contract_address: mainContract?.address.toString(),
     ...contractData,
     sendInternalMessage: () => {
-      return mainContract?.sendInternalMessage(connection.sender, toNano("1"));
+      return mainContract?.sendInternalMessage(sender, toNano("1"));
     },
   };
 }
