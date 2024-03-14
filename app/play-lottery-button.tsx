@@ -1,5 +1,5 @@
 import { useConnection } from "@/hooks/useConnection";
-import { useLotteryContract } from "@/hooks/useContractWrapper";
+import { useLotteryContract } from "@/hooks/useLotteryContract";
 import { Button } from "@/components/ui/button";
 
 export function PlayLotteryButton() {
@@ -11,8 +11,8 @@ export function PlayLotteryButton() {
     connected && (
       <>
         <b>Contract Address:</b>
-        <div>{contract_address}</div>
-        <b>Current number</b>
+        <div className="overflow-hidden">{contract_address}</div>
+        <b>Current number:</b>
         <div>{number}</div>
 
         <Button asChild>

@@ -76,14 +76,18 @@ export class Lottery implements Contract {
   }
 
   async getData(provider: ContractProvider) {
-    const { stack } = await provider.get("get_info", []);
-    let available_balance = stack.readNumber();
-    let service_balance = stack.readNumber();
-    let admin_addr_workchain = stack.readNumber();
-    let admin_addr = stack.readNumber();
-    let last_number = stack.readNumber();
-    //hash: stack.readNumber()
-    return last_number;
+    try {
+      const { stack } = await provider.get("get_info", []);
+      let available_balance = stack.readNumber();
+      let service_balance = stack.readNumber();
+      let admin_addr_workchain = stack.readNumber();
+      let admin_addr = stack.readNumber();
+      let last_number = stack.readNumber();
+      //hash: stack.readNumber()
+      return last_number;
+    } catch (e) {
+      return;
+    }
   }
 
   async getBalance(provider: ContractProvider) {

@@ -6,18 +6,17 @@ import { useTonClient } from "./useTonClient";
 import { useTonConnect } from "./useTonConnect";
 
 export function useLotteryContract() {
-  const { wallet, sender } = useTonConnect();
+  const { sender } = useTonConnect();
   const { client } = useTonClient();
 
   const sleep = (time: number) =>
     new Promise((resolve) => setTimeout(resolve, time));
 
-  const [contractData, setContractData] = useState<null | {
-    number: number;
-  }>();
+  const [number, setNumber] = useState<number>();
 
-  const mainContract = useInit(async () => {
+  const lotteryContract = useInit(async () => {
     if (!client) return;
+
     const contract = new Lottery(
       Address.parse("UQBuCIH3AAwsCXmFFrHE04QseaBmuTXXRF6Bvb81vAzZLHp5")
     );
@@ -26,23 +25,21 @@ export function useLotteryContract() {
 
   useEffect(() => {
     async function getValue() {
-      if (!mainContract) return;
-      setContractData(null);
-      const instack = await mainContract.getData();
-      setContractData({
-        number: instack,
-      });
+      if (!lotteryContract) return;
+      setNumber(undefined);
+      const number = await lotteryContract.getData();
+      setNumber(number);
       await sleep(5000);
       getValue();
     }
     getValue();
-  }, [mainContract]);
+  }, [lotteryContract]);
 
   return {
-    contract_address: mainContract?.address.toString(),
-    ...contractData,
+    contract_address: lotteryContract?.address.toString(),
+    number,
     sendInternalMessage: () => {
-      return mainContract?.sendInternalMessage(sender, toNano("1"));
+      return lotteryContract?.sendInternalMessage(sender, toNano("1"));
     },
   };
 }
