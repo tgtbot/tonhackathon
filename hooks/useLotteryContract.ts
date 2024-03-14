@@ -18,7 +18,7 @@ export function useLotteryContract() {
     if (!client) return;
 
     const contract = new Lottery(
-      Address.parse("UQBuCIH3AAwsCXmFFrHE04QseaBmuTXXRF6Bvb81vAzZLHp5")
+      Address.parse("EQAOlhxbnZRUIAt50eJDTDBAbaNWF4o_ETxzfGTYbQ1MMsWU")
     );
     return client.open(contract) as OpenedContract<Lottery>;
   }, [client]);
