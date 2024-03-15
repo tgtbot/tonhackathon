@@ -80,6 +80,7 @@ export class Lottery implements Contract {
     let available_balance = stack.readNumber();
     let service_balance = stack.readNumber();
     let admin_addr_workchain = stack.readNumber();
+    let admin_addr = stack.readNumber();
     let last_number = stack.readNumber();
     //hash: stack.readNumber()
     // contract: return (db::available_balance, db::service_balance, parse_std_addr(db::admin_addr), db::last_number, db::hash);
