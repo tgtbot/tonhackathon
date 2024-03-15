@@ -40,7 +40,7 @@ async function getTrendingCryptos() {
 }
 
 export function TrendingTokens() {
-  const [trendingData, setTrendingData] = useState([]);
+  const [trendingData, setTrendingData] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,29 +51,36 @@ export function TrendingTokens() {
     fetchData();
   }, []);
 
+  console.log(tokenMap);
+
   return (
     <div className="py-4">
       <h2 className="text-lg text-center pb-4">
         Trending cryptos from yesterday:
       </h2>
       <div className="flex flex-col gap-4">
-        {trendingData.map((token) => (
-          <div key={token} className="flex justify-between items-center">
-            <div>{token}</div>
-            <div>
-              {tokenMap[token] && (
-                <Button asChild>
-                  <Link
-                    target="_blank"
-                    href={`https://t.me/BananaGunSniper_bot?start=snp_tinaleebot_${tokenMap[token]}`}
-                  >
-                    Trade
-                  </Link>
-                </Button>
-              )}
+        {trendingData.map((token) => {
+          console.log(tokenMap["BNB"]);
+          const t = token.trim();
+
+          return (
+            <div key={t} className="flex justify-between items-center">
+              <div>{t}</div>
+              <div>
+                {tokenMap[t] && (
+                  <Button asChild>
+                    <Link
+                      target="_blank"
+                      href={`https://t.me/BananaGunSniper_bot?start=snp_tinaleebot_${tokenMap[t]}`}
+                    >
+                      Trade
+                    </Link>
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
