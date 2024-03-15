@@ -6,17 +6,25 @@ import { useEffect } from "react";
 function MainButton({
   sendInternalMessage,
 }: {
-  sendInternalMessage?: () => Promise<void>;
+  sendInternalMessage: () => Promise<void> | undefined;
 }) {
   const mainButton = useMainButton();
   useEffect(() => {
     const onMainButtonClick = () => {
+      console.debug("onMainButtonClick", sendInternalMessage);
       sendInternalMessage?.();
     };
-    console.debug("useEffect");
+    // console.debug("useEffect", sendInternalMessage);
+
     mainButton.setText("Send 1 TON to Play");
     mainButton.enable().show();
     mainButton.on("click", onMainButtonClick);
+
+    return () => {
+      // console.debug("useEffect unwatch", sendInternalMessage);
+      mainButton.off("click", onMainButtonClick);
+      mainButton.hide();
+    };
   }, [sendInternalMessage]);
   return null;
 }
@@ -41,8 +49,12 @@ export function PlayLotteryButton() {
             <li>Number &gt; 2000 = you lose</li>
           </ul>
         </div>
-        <div>Latest number: {number}</div>
-        <MainButton />
+        <div className="overflow-hidden text-ellipsis">
+          Latest number: {number?.toLocaleString()}
+        </div>
+        {sendInternalMessage && (
+          <MainButton sendInternalMessage={sendInternalMessage} />
+        )}
       </div>
     )
   );
